@@ -107,53 +107,35 @@
                 gameOver = true;
             } else {
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                // コンピューターの手番
-                makeComputerMove();
-            }
-        }
-
-        function makeComputerMove() {
-            if (gameOver) return;
-
-            // コンピューターの手をランダムに選択
-            let emptyCells = [];
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    if (board[row][col] === '') {
-                        emptyCells.push({ row, col });
-                    }
-                }
-            }
-
-            if (emptyCells.length > 0) {
-                const randomIndex = Math.floor(Math.random() * emptyCells.length);
-                const { row, col } = emptyCells[randomIndex];
-                makeMove(row, col);
             }
         }
 
         function checkWin(row, col) {
             // 勝利条件のチェックロジック
-            // 以前のコードを使用
+            const marks = ['X', 'O'];
+
+            for (const mark of marks) {
+                // 横のライン
+                if (board[row][0] === mark && board[row][1] === mark && board[row][2] === mark) return true;
+                // 縦のライン
+                if (board[0][col] === mark && board[1][col] === mark && board[2][col] === mark) return true;
+                // 対角線
+                if (board[0][0] === mark && board[1][1] === mark && board[2][2] === mark) return true;
+                if (board[0][2] === mark && board[1][1] === mark && board[2][0] === mark) return true;
+            }
+
+            return false;
         }
 
         function checkTie() {
             // 引き分けのチェックロジック
-            // 以前のコードを使用
-        }
-
-        function resetBoard() {
-            currentPlayer = 'X';
-            board = [['', '', ''], ['', '', ''], ['', '', '']];
-            gameOver = false;
-            document.getElementById('message').innerText = '';
-            document.querySelectorAll('.cell').forEach((cell) => {
-                cell.innerText = '';
-                cell.classList.remove('X', 'O');
-            });
-        }
-    </script>
-</body>
-</html>
-
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    if (board[row][col] === '') {
+                        return false;
+                    }
+                }
+            }
+            return true;
+       
 
