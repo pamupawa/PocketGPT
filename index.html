@@ -101,16 +101,14 @@
                 gameOver = true;
             } else {
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                // コンピューターの手番
-                setTimeout(makeComputerMove, 500);
+                makeComputerMove(); // プレイヤーの後にコンピューターの手番を実行
             }
         }
 
         function makeComputerMove() {
             if (gameOver) return;
 
-            // ここにコンピューターの手番をプログラム
-            // 例: ランダムな空いているセルにマークを配置する
+            // コンピューターの手をランダムに選択
             let emptyCells = [];
             for (let row = 0; row < 3; row++) {
                 for (let col = 0; col < 3; col++) {
@@ -148,6 +146,5 @@
     </script>
 </body>
 </html>
-
 
 
