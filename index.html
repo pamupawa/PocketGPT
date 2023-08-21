@@ -101,6 +101,29 @@
                 gameOver = true;
             } else {
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                // コンピューターの手番
+                setTimeout(makeComputerMove, 500);
+            }
+        }
+
+        function makeComputerMove() {
+            if (gameOver) return;
+
+            // ここにコンピューターの手番をプログラム
+            // 例: ランダムな空いているセルにマークを配置する
+            let emptyCells = [];
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    if (board[row][col] === '') {
+                        emptyCells.push({ row, col });
+                    }
+                }
+            }
+
+            if (emptyCells.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                const { row, col } = emptyCells[randomIndex];
+                makeMove(row, col);
             }
         }
 
@@ -125,4 +148,5 @@
     </script>
 </body>
 </html>
+
 
