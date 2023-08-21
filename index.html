@@ -1,141 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>三目並べ</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-gap: 10px;
-            margin: 0 auto;
-            margin-top: 20px;
-            max-width: 330px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.2);
-        }
-
-        .cell {
-            width: 100px;
-            height: 100px;
-            font-size: 48px;
-            text-align: center;
-            vertical-align: middle;
-            border: 3px solid #333;
-            cursor: pointer;
-            background-color: #eee;
-        }
-
-        .cell:hover {
-            background-color: #f2f2f2;
-        }
-
-        .cell.X {
-            color: #E74C3C;
-        }
-
-        .cell.O {
-            color: #3498DB;
-        }
-
-        #message {
-            font-size: 24px;
-            margin-top: 20px;
-            color: #333;
-        }
-
-        button {
-            font-size: 16px;
-            padding: 10px 20px;
-            margin-top: 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #555;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>ChatGPT Embedding Example</title>
 </head>
 <body>
-    <h1>三目並べ</h1>
-    <div class="board" id="board">
-        <div class="cell" onclick="makeMove(0, 0)"></div>
-        <div class="cell" onclick="makeMove(0, 1)"></div>
-        <div class="cell" onclick="makeMove(0, 2)"></div>
-        <div class="cell" onclick="makeMove(1, 0)"></div>
-        <div class="cell" onclick="makeMove(1, 1)"></div>
-        <div class="cell" onclick="makeMove(1, 2)"></div>
-        <div class="cell" onclick="makeMove(2, 0)"></div>
-        <div class="cell" onclick="makeMove(2, 1)"></div>
-        <div class="cell" onclick="makeMove(2, 2)"></div>
-    </div>
-    <div id="message"></div>
-    <button onclick="resetBoard()">リセット</button>
+    <div id="chatgpt-container"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/openai-gpt@0.1.0"></script>
     <script>
-        let currentPlayer = 'X';
-        let board = [['', '', ''], ['', '', ''], ['', '', '']];
-        let gameOver = false;
+        const container = document.getElementById('chatgpt-container');
+        const chatGPT = new OpenAIGPT({
+            container: container,
+            // 他の設定オプションをここに追加できます
+        });
+    </script>
+</body>
+</html>
 
-        function makeMove(row, col) {
-            if (gameOver || board[row][col] !== '') return;
-
-            board[row][col] = currentPlayer;
-            const cell = document.getElementById('board').children[row * 3 + col];
-            cell.innerText = currentPlayer;
-            cell.classList.add(currentPlayer);
-
-            if (checkWin(row, col)) {
-                document.getElementById('message').innerText = currentPlayer + 'の勝利!';
-                gameOver = true;
-            } else if (checkTie()) {
-                document.getElementById('message').innerText = '引き分け!';
-                gameOver = true;
-            } else {
-                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            }
-        }
-
-        function checkWin(row, col) {
-            // 勝利条件のチェックロジック
-            const marks = ['X', 'O'];
-
-            for (const mark of marks) {
-                // 横のライン
-                if (board[row][0] === mark && board[row][1] === mark && board[row][2] === mark) return true;
-                // 縦のライン
-                if (board[0][col] === mark && board[1][col] === mark && board[2][col] === mark) return true;
-                // 対角線
-                if (board[0][0] === mark && board[1][1] === mark && board[2][2] === mark) return true;
-                if (board[0][2] === mark && board[1][1] === mark && board[2][0] === mark) return true;
-            }
-
-            return false;
-        }
-
-        function checkTie() {
-            // 引き分けのチェックロジック
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    if (board[row][col] === '') {
-                        return false;
-                    }
-                }
-            }
-            return true;
        
 
